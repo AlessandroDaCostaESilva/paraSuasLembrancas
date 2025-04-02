@@ -21,7 +21,7 @@
   "build": "react-scripts build",
   "test": "react-scripts test",
   "eject": "react-scripts eject",
-  "install-all": "npm install && cd api && npm install"
+  "install-all": "npm install && cd api && npm install && npx prisma generate"
 },
   "eslintConfig": {
     "extends": [
