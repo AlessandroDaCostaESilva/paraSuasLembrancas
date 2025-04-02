@@ -3,10 +3,23 @@ import '../css/actions.css'
 import Logo from '../img/logo.svg'
 import Login from '../components/Login'
 import { Link } from 'react-router-dom'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const Header = () => {
     const [mostrar, setMostrar] = useState(false);
+    const [userName, setUserName] = useState(null);
+
+    // Carrega o nome do usuário ao montar o componente
+    useEffect(() => {
+        const storedName = localStorage.getItem("userName");
+        if (storedName) setUserName(storedName);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userName");
+        setUserName(null);
+    };
 
     return (
         <header className="headerMain">
@@ -22,38 +35,46 @@ const Header = () => {
                     <li><Link to='/ava' className="textNav">AVALIAÇÕES</Link></li>
                 </ul>
                 <ul className="listaNav endNav" id="loginAndRegister">
-                    <li><span 
-                        className="textNav" 
-                        onClick={() => {
-                            setMostrar(true)
-                            document.body.style.overflow = "hidden";
-                        }}
-                    >
-                        LOGIN
-                    </span></li>
-                    <li className="registerNav"><Link to='/register'>REGISTRAR-SE</Link></li>
+                    {userName ? (
+                        <>
+                            <li className="textNav">Olá, {userName}!</li>
+                            <li className="textNav" onClick={handleLogout}>Logout</li>
+                        </>
+                    ) : (
+                        <>
+                            <li className="textNav" 
+                                onClick={() => {
+                                    setMostrar(true);
+                                    document.body.style.overflow = "hidden";
+                                }}
+                            >
+                                LOGIN
+                            </li>
+                            <li className="registerNav"><Link to='/register'>REGISTRAR-SE</Link></li>
+                        </>
+                    )}
                 </ul>
             </nav>
             
             {mostrar && (
-    <section 
-        className='telaToda' 
-        onClick={() => {
-            setMostrar(false);
-            document.body.style.overflow = 'auto';
-        }}
-    >
-        <div onClick={(e) => e.stopPropagation()}>  {/* Impede que o clique no modal feche */}
-            <Login onClose={() => {
-                setMostrar(false);
-                document.body.style.overflow = 'auto';
-            }} />
-        </div>
-    </section>
-)}
+                <section 
+                    className='telaToda' 
+                    onClick={() => {
+                        setMostrar(false);
+                        document.body.style.overflow = 'auto';
+                    }}
+                >
+                    <div onClick={(e) => e.stopPropagation()}>
+                        <Login onClose={() => {
+                            setMostrar(false);
+                            document.body.style.overflow = 'auto';
+                            setUserName(localStorage.getItem("userName")); // Atualiza o nome após login
+                        }} />
+                    </div>
+                </section>
+            )}
         </header>
     );
 }
 
-
-export default Header
+export default Header;
