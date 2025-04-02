@@ -1,0 +1,62 @@
+.headerMain{
+    width: 100%;
+    height: 10vh;
+    padding: 10px;
+    display: flex;
+    position: relative;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.logo{
+    width: 12%;
+    height: 80%;
+}
+
+.logo img{
+    width: 100%;
+    height: 100%;
+}
+
+.navigatorDisplay{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100vw;
+    height: 100%;
+}
+
+.listaNav{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    min-width: 15rem;
+}
+
+.textNav{
+    font-weight: 400;
+    color: #146EA6;
+    font-size: 1rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.registerNav{
+    padding: 10px;
+    border-radius: 15px;
+    font-weight: 500;
+    background-color: #146EA6;
+    font-size: clamp(10px, 1rem, 60px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 80%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: ease 500ms;
+}
+
+.registerNav a{
+    color: #fff;
+}

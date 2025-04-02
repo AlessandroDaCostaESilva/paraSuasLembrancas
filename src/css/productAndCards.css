@@ -1,0 +1,195 @@
+.products{
+    padding: 20px 0 20px 0;
+    overflow: hidden;
+}
+
+.titleProduct{
+    position: relative;
+    display: inline-block;
+    width: 110%;
+    background: url(../img/linhaMarajoara.svg) 100% 50%;
+}
+
+.linhaMarajoara{
+    display: inline-block;
+    background-color: #fff;
+    color: #146EA6;
+    font-size: 2rem;
+    padding: 0 20px;
+    font-weight: bolder;
+}
+
+.cardsLayout{
+    padding: 10px 20px 50px 20px;
+}
+
+.itensVenda{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.nomeCompra{
+    font-size: 2rem;
+    font-weight: 600;
+    color: #146EA6;
+    text-transform: uppercase;
+}
+
+.cartoesOrg{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 55vh;
+    gap: 25px;
+    flex-wrap: wrap;
+    padding: 20px 10px;
+}
+
+.cartao{
+    width: 22%;
+    height: 100%;
+    position: relative;
+    overflow-y: hidden;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+    border-radius: 5px;
+}
+
+.imagmexemplo{
+    width: 100%;
+    height: 100%;
+}
+
+.nomeItem{
+    font-weight: bold;
+    color: #146EA6;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.cartao .maisActive{
+    display: flex;
+    top: 20%;
+    transition: ease 500ms;
+}
+
+.maisInfo{
+    color: #4C4C4C;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    font-size: 0.8rem;
+    height: 80%;
+    background-color: #fff;
+    position: absolute;
+    transition: ease 500ms;
+    top: 110%;
+    border-radius: 0 0 10px 10px;
+}
+
+.carrinho{
+    height: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #146EA6;
+}
+
+.pMiriti{
+    background: url(../img/Products/barquinho.jpg);
+    background-size: cover;
+}
+
+.sMiriti{
+    background: url(../img/Products/passaro.jpeg) 60%;
+    background-size: cover;
+}
+
+.tMiriti{
+    background: url(../img/Products/casal.jpg) 50% 80%;
+    background-size: cover;
+}
+.qMiriti{
+    background: url(../img/Products/cobra.jpeg);
+    background-size: cover;
+}
+
+.pVaso{
+    background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNoi8koEM_DAgl4JHj3UqaIQr2DoXB3yRDpg&s);
+    background-size: cover;
+}
+
+.sVaso{
+    background: url(https://down-br.img.susercontent.com/file/br-11134207-7r98o-lqunpcud2aezb4_tn);
+    background-size: cover;
+}
+
+.tVaso{
+    background: url(https://t4.ftcdn.net/jpg/02/89/26/09/240_F_289260919_yvYjRPlx9YgmOW8aZaOaBZez5004I9O6.jpg);
+}
+
+.qVaso{
+    background: url(https://as1.ftcdn.net/v2/jpg/02/89/26/08/1000_F_289260892_7Y9sumQUdq9sYi6BeLDrUdx5P0mcKjHH.jpg);
+    background-size: cover;
+}
+
+.pCheiro{
+    background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNrVMprFplROVStb9mda5z4wATGwlRMQ5TnQ&s);
+    background-size: cover;
+}
+
+.sCheiro{
+    background: url(https://www.paraterraboa.com/wp-content/uploads/2022/06/banhodecheiro-agbelem-1200x800.jpg);
+    background-size: cover;
+}
+
+.tCheiro{
+    background: url(https://s2.glbimg.com/SIm0HjXS9Efd_kMEU2-NDyaAaHCPOgEEq4jTPDJVllFIoz-HdGixxa_8qOZvMp3w/s.glbimg.com/jo/g1/f/original/2012/08/31/patchouli.jpg);
+    background-size: cover;
+}
+
+.qCheiro{
+    background: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjuZ9wpRl3JFJUVEd4W9PS57rWoAcKHG0kdMYLwC_iVzYiAF8rGxGtO1KmtZ3DBj5sTrgB-D9TM7G6UDPc2siFuur7WpXHVjkfB5czq_1GDf8lqs8riG7B0JPOuUDvh3BZt2Cfv6ZG-C1o/s1600/destaque-334846-destaque-290622-ver-o-peso.jpg);
+    background-size: cover;
+}
+
+.meiosContato{
+    padding: 1%;
+    color: #4C4C4C;
+    display: flex;
+    align-items: end;
+    gap: 15px;
+}
+
+.textoSuporte{
+    display: inline-block;
+    height: 100%;
+    width: 40%;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+
+.contactCol{
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+.contactZ{
+    color: #04BF45;
+}
+
+.contactL{
+    color: #146EA6;
+}
+
+.contactI{
+    color: #622BD9;
+}

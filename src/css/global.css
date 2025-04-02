@@ -1,0 +1,13 @@
+*{
+    scroll-behavior: smooth;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    font-family: "Inter", serif;
+    font-weight: 400;
+    outline: none;
+    background: none;
+    border: none;
+}

@@ -1,0 +1,69 @@
+.registerTitle{
+    font-weight: 700;
+}
+
+.layoutMain{
+    background: url(https://c4.wallpaperflare.com/wallpaper/948/848/937/ecosystem-vegetation-wildlife-jungle-wallpaper-preview.jpg) no-repeat 100% 45%;
+    background-size: cover;
+    height: 90vh;
+}
+
+.formRegister{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    background-color: #fff;
+    padding: 30px;
+    height: 100%;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    color: #146EA6;
+}
+
+.boxRelative{
+    width: 100%;
+    height: 8vh;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.inputRegister{
+    border-bottom: 5px solid #146EA6;
+    height: 100%;
+    width: 90%;
+    padding: 0 10px;
+    color: #4C4C4C;
+}
+
+
+.confirmBox{
+    position: relative;
+}
+
+#register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    width: 15vw;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 1.2rem;
+    background-color: #146EA6;
+    cursor: pointer;
+    transition: ease 500ms;
+}
+
+.RegisterDados{
+    display: none;
+    top: 0;
+    position: absolute;
+    background-color: #4C4C4C;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+}
