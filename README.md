@@ -33,4 +33,5 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 **Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-###  USE `npm run install-all ` PARA INSTALA OS MODULOS DA API E DO FRONT
+###  USE `npm run install-all ` PARA INSTALA OS MODULOS DA API E DO FRONT e de `npx prisma generate` na pasta Api do diretorio pra gera o banco
+
