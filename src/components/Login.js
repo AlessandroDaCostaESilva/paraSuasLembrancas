@@ -16,20 +16,16 @@ const Login = ({ onClose }) => {
         console.log("Login bem-sucedido:", response.data);
 
         if (response.data.token) {
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("userName", response.data.user.name); 
-        }
-        
+          localStorage.setItem("token", response.data.token); 
+          localStorage.setItem("userName", response.data.user.name); 
+          localStorage.setItem("userEmail", response.data.user.email); // Salva o email
+          localStorage.setItem("userId", response.data.user.id); // Salva o ID
+      }
 
-        if (onClose) onClose();
-        
+        if (onClose) onClose(); // Fecha o modal
     } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
-            setMessage(error.response.data.message);
-        } else {
-            setMessage("Erro ao realizar login.");
-        }
-        console.error(error.response ? error.response.data : error.message);
+        console.error("Erro no login:", error.response ? error.response.data : error.message);
+        setMessage(error.response.data.message || "Erro ao realizar login.");
     }
 };
 

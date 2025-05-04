@@ -104,25 +104,31 @@ export const loginUserController = async (req, res) => {
             return res.status(400).json({ message: "E-mail e senha são obrigatórios!" });
         }
 
-        const user = await getUserByEmail(email);
+        const user = await getUserByEmail(email); // Usa o método atualizado
         if (!user) {
             return res.status(400).json({ message: "E-mail ou senha inválidos!" });
         }
 
-        const passwordMatch = await bcrypt.compare(password, user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password); // Verifica a senha
         if (!passwordMatch) {
             return res.status(400).json({ message: "E-mail ou senha inválidos!" });
         }
 
-        const token = generateToken(user.id);  // Gerar o token JWT com o ID do usuário
+        const token = generateToken(user.id); // Gera o token usando o ID do usuário
 
+        // Inclua o `email` na resposta:
         return res.status(200).json({ 
             message: "Login bem-sucedido!", 
             token, 
-            user: { name: user.name }
+            user: { 
+                id: user.id,   // Inclui o ID do usuário
+                name: user.name,
+                email: user.email // Inclui o email do usuário na resposta
+            }
         });
     } catch (error) {
         console.error("Erro ao realizar login:", error);
         return res.status(500).json({ message: "Erro ao realizar login." });
     }
 };
+

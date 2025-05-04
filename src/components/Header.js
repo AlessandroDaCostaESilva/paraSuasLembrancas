@@ -8,17 +8,29 @@ import { useState, useEffect } from "react"
 const Header = () => {
     const [mostrar, setMostrar] = useState(false);
     const [userName, setUserName] = useState(null);
+    const [userId, setUserId] = useState(null);
 
-    // Carrega o nome do usuário ao montar o componente
     useEffect(() => {
         const storedName = localStorage.getItem("userName");
+        const storedId = localStorage.getItem("userId");
+    
+        console.log("Nome do usuário:", storedName);
+        console.log("ID do usuário:", storedId);
+    
         if (storedName) setUserName(storedName);
+        if (storedId) setUserId(storedId);
     }, []);
+    
+    {userId && userId !== "null" && (
+        <li><Link to={`/carrinho/${userId}`} className="textNav">CARRINHO</Link></li>
+    )}
 
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("userName");
+        localStorage.removeItem("userId"); // Remove o ID do usuário
         setUserName(null);
+        setUserId(null);
     };
 
     return (
@@ -33,6 +45,9 @@ const Header = () => {
                     <li><span className="textNav" id="btnSup">SUPORTE</span></li>
                     <li><Link to="/sobre" className="textNav">SOBRE</Link></li>
                     <li><Link to='/ava' className="textNav">AVALIAÇÕES</Link></li>
+                    {userId && userId !== "null" && 
+                        <li><Link to={`/carrinho/${userId}`} className="textNav">HISTORICO</Link></li>
+                    }
                 </ul>
                 <ul className="listaNav endNav" id="loginAndRegister">
                     {userName ? (
@@ -68,7 +83,8 @@ const Header = () => {
                         <Login onClose={() => {
                             setMostrar(false);
                             document.body.style.overflow = 'auto';
-                            setUserName(localStorage.getItem("userName")); // Atualiza o nome após login
+                            setUserName(localStorage.getItem("userName"));
+                            setUserId(localStorage.getItem("userId")); // Atualiza o ID após login
                         }} />
                     </div>
                 </section>
