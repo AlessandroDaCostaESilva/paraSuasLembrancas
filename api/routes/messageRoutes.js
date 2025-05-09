@@ -8,7 +8,9 @@ import {
     getUserByMessageIdController,
     updateMessageController,
     getMessagesByUserIdController,
-    deleteMessageControllerByAdmin
+    deleteMessageControllerByAdmin,
+    getHistoryByMessageId
+    
 } from '../controllers/messageController.js';
 
 const router = express.Router();
@@ -21,6 +23,6 @@ router.get('/mensagens/:messageId/usuario', getUserByMessageIdController);
 router.delete('/mensagens/:id', deleteMessageController);
 router.put('/mensagens/:id', updateMessageController);
 router.delete('/messagens/admin/:id', deleteMessageControllerByAdmin);
-router.get('/mensagens/:userId/mensagens', getMessagesByUserIdController);
+router.get('/mensagens/:userId/mensagens', getMessagesByUserIdController); // rota para pega todas as mensagem de um unico usuario
 
 export default router;

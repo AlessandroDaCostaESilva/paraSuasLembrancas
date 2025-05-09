@@ -15,6 +15,7 @@ model User {
   date      DateTime  @default(now())
   messages  Message[] 
   carrinho  Carrinho[]
+  messageHistory MessageHistory[]
 }
 
 model Produto {
@@ -33,6 +34,7 @@ model Message {
   date      DateTime @default(now())
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
+  messageHistories MessageHistory[] @relation("OriginalMessageHistory")
 }
 
 model Carrinho {
@@ -44,3 +46,13 @@ model Carrinho {
   quantidade Int
 }
 
+model MessageHistory {
+    id           Int       @id @default(autoincrement())
+    originalId   Int
+    content      String
+    action       String    // Pode ser "edited" ou "deleted"
+    editedById   Int
+    editedAt     DateTime  @default(now())
+    original     Message   @relation("OriginalMessageHistory", fields: [originalId], references: [id])
+    editedBy     User      @relation(fields: [editedById], references: [id])
+}

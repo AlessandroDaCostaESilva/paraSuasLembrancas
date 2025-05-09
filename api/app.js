@@ -3,7 +3,8 @@ import cors from "cors";
 import userRoutes from './routes/userRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import productRoutes from './routes/productRoutes.js';
-import cartRoutes from "./routes/cartRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js"
+
 
 const app = express();
 const port = 5000;
@@ -17,6 +18,7 @@ app.use(userRoutes);
 app.use(messageRoutes);
 app.use(productRoutes);
 app.use(cartRoutes);
+
 
 
 app.listen(port, () => {

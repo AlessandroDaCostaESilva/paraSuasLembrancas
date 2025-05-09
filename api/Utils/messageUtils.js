@@ -49,3 +49,14 @@ export const updateMessage = async (id, content) => {
         data: { content },
     });
 };
+
+export const createMessageHistory = async ({ originalId, content, action, editedById }) => {
+    return await prisma.messageHistory.create({
+        data: {
+            originalId,
+            content,
+            action,
+            editedById
+        }
+    });
+};
