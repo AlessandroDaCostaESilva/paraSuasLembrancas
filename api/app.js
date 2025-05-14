@@ -18,7 +18,7 @@ app.use(userRoutes);
 app.use(messageRoutes);
 app.use(productRoutes);
 app.use(cartRoutes);
-
+app.use('/images', express.static('images'));
 
 
 app.listen(port, () => {

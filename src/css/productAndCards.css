@@ -50,7 +50,7 @@
 
 .cartao{
     width: 22%;
-    height: 100%;
+    height: 50%;
     position: relative;
     overflow-y: hidden;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
@@ -102,64 +102,6 @@
     background-color: #146EA6;
 }
 
-.pMiriti{
-    background: url(../img/Products/barquinho.jpg);
-    background-size: cover;
-}
-
-.sMiriti{
-    background: url(../img/Products/passaro.jpeg) 60%;
-    background-size: cover;
-}
-
-.tMiriti{
-    background: url(../img/Products/casal.jpg) 50% 80%;
-    background-size: cover;
-}
-.qMiriti{
-    background: url(../img/Products/cobra.jpeg);
-    background-size: cover;
-}
-
-.pVaso{
-    background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNoi8koEM_DAgl4JHj3UqaIQr2DoXB3yRDpg&s);
-    background-size: cover;
-}
-
-.sVaso{
-    background: url(https://down-br.img.susercontent.com/file/br-11134207-7r98o-lqunpcud2aezb4_tn);
-    background-size: cover;
-}
-
-.tVaso{
-    background: url(https://t4.ftcdn.net/jpg/02/89/26/09/240_F_289260919_yvYjRPlx9YgmOW8aZaOaBZez5004I9O6.jpg);
-}
-
-.qVaso{
-    background: url(https://as1.ftcdn.net/v2/jpg/02/89/26/08/1000_F_289260892_7Y9sumQUdq9sYi6BeLDrUdx5P0mcKjHH.jpg);
-    background-size: cover;
-}
-
-.pCheiro{
-    background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNrVMprFplROVStb9mda5z4wATGwlRMQ5TnQ&s);
-    background-size: cover;
-}
-
-.sCheiro{
-    background: url(https://www.paraterraboa.com/wp-content/uploads/2022/06/banhodecheiro-agbelem-1200x800.jpg);
-    background-size: cover;
-}
-
-.tCheiro{
-    background: url(https://s2.glbimg.com/SIm0HjXS9Efd_kMEU2-NDyaAaHCPOgEEq4jTPDJVllFIoz-HdGixxa_8qOZvMp3w/s.glbimg.com/jo/g1/f/original/2012/08/31/patchouli.jpg);
-    background-size: cover;
-}
-
-.qCheiro{
-    background: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjuZ9wpRl3JFJUVEd4W9PS57rWoAcKHG0kdMYLwC_iVzYiAF8rGxGtO1KmtZ3DBj5sTrgB-D9TM7G6UDPc2siFuur7WpXHVjkfB5czq_1GDf8lqs8riG7B0JPOuUDvh3BZt2Cfv6ZG-C1o/s1600/destaque-334846-destaque-290622-ver-o-peso.jpg);
-    background-size: cover;
-}
-
 .meiosContato{
     padding: 1%;
     color: #4C4C4C;
@@ -192,4 +134,18 @@
 
 .contactI{
     color: #622BD9;
+}
+
+.containerImagem {
+    width: 100%;
+    height: 100%; /* Altura fixa para manter padrão */
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+.imagemProduto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cobre o espaço sem distorcer */
+    display: block;
 }

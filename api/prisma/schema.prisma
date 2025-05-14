@@ -1,6 +1,6 @@
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "sqlite"  // Ou outro banco de dados, como PostgreSQL, MySQL, etc.
+  url      = env("DATABASE_URL")  // Carrega a URL do banco de dados a partir de variáveis de ambiente
 }
 
 generator client {
@@ -18,23 +18,26 @@ model User {
   messageHistory MessageHistory[]
 }
 
+model Message {
+  id        Int       @id @default(autoincrement())
+  content   String
+  date      DateTime  @default(now())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  produtoId Int       // Chave estrangeira para Produto
+  produto   Produto   @relation(fields: [produtoId], references: [id])
+  messageHistories MessageHistory[] @relation("OriginalMessageHistory") // Relação com MessageHistory
+}
+
 model Produto {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   nome      String
   descricao String
   preco     Float
   imagem    String
-  criadoEm  DateTime @default(now())
+  criadoEm  DateTime  @default(now())
   carrinho  Carrinho[]
-}
-
-model Message {
-  id        Int      @id @default(autoincrement())
-  content   String
-  date      DateTime @default(now())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  messageHistories MessageHistory[] @relation("OriginalMessageHistory")
+  messages  Message[] // Relacionamento inverso com Message
 }
 
 model Carrinho {
@@ -47,12 +50,12 @@ model Carrinho {
 }
 
 model MessageHistory {
-    id           Int       @id @default(autoincrement())
-    originalId   Int
-    content      String
-    action       String    // Pode ser "edited" ou "deleted"
-    editedById   Int
-    editedAt     DateTime  @default(now())
-    original     Message   @relation("OriginalMessageHistory", fields: [originalId], references: [id])
-    editedBy     User      @relation(fields: [editedById], references: [id])
+  id           Int       @id @default(autoincrement())
+  originalId   Int
+  content      String
+  action       String    // Pode ser "edited" ou "deleted"
+  editedById   Int
+  editedAt     DateTime  @default(now())
+  original     Message   @relation("OriginalMessageHistory", fields: [originalId], references: [id]) // Relacionamento oposto
+  editedBy     User      @relation(fields: [editedById], references: [id])
 }

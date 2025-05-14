@@ -65,3 +65,7 @@ export const calcularTotalDoCarrinho = async (usuarioId) => {
 };
 
 
+export const getAllProducts = async () => {
+  const response = await api.get('/produtos');
+  return response.data;
+};

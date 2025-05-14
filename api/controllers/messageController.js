@@ -5,7 +5,7 @@ import {
     updateMessage, 
     deleteMessage,
     getAllMessagesByUserId,
-    createMessageHistory
+    createMessageHistory,
 } from '../Utils/messageUtils.js';
 
 
@@ -197,51 +197,4 @@ export const getMessagesByUserIdController = async (req, res) => {
         console.error("Erro ao buscar mensagens do usuário:", error);
         return res.status(500).json({ message: 'Erro ao buscar mensagens do usuário.' });
     }
-};
-export const getMessageHistoryByOriginalId = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        const history = await prisma.messageHistory.findMany({
-            where: { originalId: parseInt(id) },
-            include: {
-                editedBy: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
-            },
-            orderBy: { editedAt: 'desc' }
-        });
-
-        if (history.length === 0) {
-            return res.status(404).json({ message: "Nenhum histórico encontrado." });
-        }
-
-        res.status(200).json(history);
-    } catch (error) {
-        console.error("Erro ao buscar histórico:", error);
-        res.status(500).json({ message: "Erro ao buscar histórico." });
-    }
-};
-export const getHistoryByMessageId = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const history = await prisma.messageHistory.findMany({
-      where: {
-        originalId: parseInt(id),
-      },
-    });
-
-    if (history.length === 0) {
-      return res.status(404).json({ message: 'Histórico não encontrado para essa mensagem.' });
-    }
-
-    return res.status(200).json(history);
-  } catch (error) {
-    console.error("Erro ao buscar histórico de mensagens:", error);
-    return res.status(500).json({ message: 'Erro ao buscar histórico de mensagens.' });
-  }
 };
