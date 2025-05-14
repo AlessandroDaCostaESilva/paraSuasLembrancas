@@ -7,45 +7,28 @@ import {
 } from '../Utils/cartUtils.js';
 
 export const addToCartController = async (req, res) => {
-  // ❗ Adiciona isso aqui para pegar os dados do body:
   const { usuarioId, produtoId, quantidade } = req.body;
 
   try {
-    // Verifica se o produto já está no carrinho do usuário
-    const produtoExistente = await prisma.carrinho.findFirst({
-      where: {
-        usuarioId: parseInt(usuarioId, 10),
-        produtoId: parseInt(produtoId, 10),
-      },
-    });
+    // Verifica se o produto já está no carrinho
+    const carrinho = await getCartByUserId(usuarioId);
+    const produtoExistente = carrinho.find(item => item.produtoId === produtoId);
 
     if (produtoExistente) {
-      // Atualiza a quantidade somando a anterior
-      const carrinhoAtualizado = await prisma.carrinho.update({
-        where: { id: produtoExistente.id },
-        data: {
-          quantidade: produtoExistente.quantidade + quantidade,
-        },
-      });
-
-      return res.status(200).json(carrinhoAtualizado);
+      const atualizado = await updateCartItem(produtoExistente.id, produtoExistente.quantidade + quantidade);
+      return res.status(200).json(atualizado);
     }
 
-    // Produto ainda não está no carrinho, cria novo
-    const novoProdutoNoCarrinho = await prisma.carrinho.create({
-      data: {
-        usuarioId: parseInt(usuarioId, 10),
-        produtoId: parseInt(produtoId, 10),
-        quantidade,
-      },
+    // Se não existe, cria novo
+    const novo = await addToCart({
+      usuarioId: parseInt(usuarioId),
+      produtoId: parseInt(produtoId),
+      quantidade,
     });
 
-    res.status(201).json(novoProdutoNoCarrinho);
+    res.status(201).json(novo);
   } catch (error) {
-    console.error("Erro ao adicionar produto ao carrinho:", {
-      mensagem: error.message,
-      detalhes: error.meta,
-    });
+    console.error("Erro ao adicionar produto ao carrinho:", error);
     res.status(500).json({ error: "Erro ao adicionar produto ao carrinho." });
   }
 };
