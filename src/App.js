@@ -8,6 +8,8 @@ import Home from './pages/Home';
 import Register from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import UserCartPage from './pages/UserCartPage';
+import OrderHistory from './pages/OrderHistory';
+import PaymentPage from './pages/PaymentPage';
 
 const App = () => {
     return (
@@ -23,7 +25,9 @@ const App = () => {
                         </ProtectedRoute>
                     }
                 />
-                <Route path='/carrinho/:id' element={<UserCartPage usuarioId={2} />} />
+                <Route path='/carrinho/:id' element={<UserCartPage />} />
+                <Route path="/pagamento" element={<PaymentPage />} />
+                <Route path='/pedidos' element={<OrderHistory />} />
             </Routes>
         </BrowserRouter>
     );

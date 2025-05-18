@@ -26,16 +26,21 @@ const Home = () => {
   const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
-  const fetchProdutos = async () => {
-    try {
-      const res = await getAllProducts();  // res já é a lista de produtos
-      setProdutos(res); // Correto
-    } catch (err) {
-      console.error("Erro ao buscar produtos:", err);
-    }
-  };
-  fetchProdutos();
-}, []);
+    const fetchProdutos = async () => {
+      try {
+        const res = await getAllProducts();
+        setProdutos(res);
+      } catch (err) {
+        console.error("Erro ao buscar produtos:", err);
+      }
+    };
+    fetchProdutos();
+  }, []);
+
+  // Separar os produtos por categoria
+  const produtosMiriti = produtos.filter(p => p.descricao.toLowerCase().includes("miriti"));
+  const produtosMarajoara = produtos.filter(p => p.descricao.toLowerCase().includes("marajoara"));
+  const produtosCheiros = produtos.filter(p => p.descricao.toLowerCase().includes("cheiros"));
 
   return (
     <>
@@ -56,19 +61,44 @@ const Home = () => {
         </div>
 
         <section className="cardsLayout">
-          <nav className="itensVendaAva">
-            <ul className="cartoesOrg">
-              {produtos.map((produto) => (
-                <CardsProducts
-                  key={produto.id}
-                  imagem={`http://localhost:5000${produto.imagem}`}
-                  item={produto.nome}
-                  descricaoItem={produto.descricao}
-                  onClick={() => handleAdicionarCarrinho(produto)}
-                />
-              ))}
-            </ul>
-          </nav>
+          <h3>MIRITI</h3>
+          <ul className="cartoesOrg">
+            {produtosMiriti.map((produto) => (
+              <CardsProducts
+                key={produto.id}
+                imagem={`http://localhost:5000${produto.imagem}`}
+                item={produto.nome}
+                descricaoItem={produto.descricao}
+                onClick={() => handleAdicionarCarrinho(produto)}
+              />
+            ))}
+          </ul>
+
+          <h3>MARAJOARA</h3>
+          <ul className="cartoesOrg">
+            {produtosMarajoara.map((produto) => (
+              <CardsProducts
+                key={produto.id}
+                imagem={`http://localhost:5000${produto.imagem}`}
+                item={produto.nome}
+                descricaoItem={produto.descricao}
+                onClick={() => handleAdicionarCarrinho(produto)}
+              />
+            ))}
+          </ul>
+
+          <h3>CHEIROS DO PARÁ</h3>
+          <ul className="cartoesOrg">
+            {produtosCheiros.map((produto) => (
+              <CardsProducts
+                key={produto.id}
+                imagem={`http://localhost:5000${produto.imagem}`}
+                item={produto.nome}
+                descricaoItem={produto.descricao}
+                onClick={() => handleAdicionarCarrinho(produto)}
+              />
+            ))}
+          </ul>
         </section>
       </main>
     </>

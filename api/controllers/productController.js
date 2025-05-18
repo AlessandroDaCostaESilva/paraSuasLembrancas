@@ -48,9 +48,7 @@ export const createManyProductsController = async (req, res) => {
 // Obter todos os produtos
 export const getAllProductsController = async (req, res) => {
   try {
-    console.log('Buscando todos os produtos');
     const produtos = await getAllProducts();
-    console.log('Produtos encontrados:', produtos);
     res.status(200).json(produtos);
   } catch (error) {
     console.error('Erro ao buscar produtos:', error);

@@ -21,9 +21,6 @@ const Header = () => {
         if (storedId) setUserId(storedId);
     }, []);
     
-    {userId && userId !== "null" && (
-        <li><Link to={`/carrinho/${userId}`} className="textNav">CARRINHO</Link></li>
-    )}
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -45,9 +42,12 @@ const Header = () => {
                     <li><span className="textNav" id="btnSup">SUPORTE</span></li>
                     <li><Link to="/sobre" className="textNav">SOBRE</Link></li>
                     <li><Link to='/ava' className="textNav">AVALIAÇÕES</Link></li>
-                    {userId && userId !== "null" && 
-                        <li><Link to={`/carrinho/${userId}`} className="textNav">HISTORICO</Link></li>
-                    }
+                    {userId && userId !== "null" && (
+                        <>
+                            <li><Link to={`/carrinho/${userId}`} className="textNav">CARRINHO</Link></li>
+                            <li><Link to="/pedidos" className="textNav">HISTÓRICO</Link></li>
+                        </>
+                        )}
                 </ul>
                 <ul className="listaNav endNav" id="loginAndRegister">
                     {userName ? (

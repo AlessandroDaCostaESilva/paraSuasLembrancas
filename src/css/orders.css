@@ -1,0 +1,180 @@
+/* orders.css - Estilos para a página de histórico de pedidos */
+
+.order-history-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.pedidos-list {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.pedido-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.pedido-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.pedido-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.status-pendente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-processando {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-enviado {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-entregue {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.pedido-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.itens-pedido {
+    margin-top: 1rem;
+}
+
+.itens-pedido h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.item-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item-list li {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.item-list li:last-child {
+    border-bottom: none;
+}
+
+.item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.item-price {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.loading-state {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+.order-history {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  
+  .pedidos-list {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .pedido-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .status-pendente {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  
+  .status-entregue {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .item-info {
+    margin-left: 1rem;
+  }

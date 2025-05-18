@@ -8,14 +8,15 @@ generator client {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  name      String
-  email     String    @unique
-  password  String
-  date      DateTime  @default(now())
-  messages  Message[] 
-  carrinho  Carrinho[]
-  messageHistory MessageHistory[]
+  id          Int              @id @default(autoincrement())
+  name        String
+  email       String           @unique
+  password    String
+  date        DateTime         @default(now())
+  messages    Message[]
+  carrinho    Carrinho[]
+  editedHistories MessageHistory[] @relation("UserEditedHistories")
+  pedidos     Pedido[]
 }
 
 model Message {
@@ -38,6 +39,7 @@ model Produto {
   criadoEm  DateTime  @default(now())
   carrinho  Carrinho[]
   messages  Message[] // Relacionamento inverso com Message
+  itensPedido ItemPedido[]
 }
 
 model Carrinho {
@@ -53,9 +55,29 @@ model MessageHistory {
   id           Int       @id @default(autoincrement())
   originalId   Int
   content      String
-  action       String    // Pode ser "edited" ou "deleted"
+  action       String
   editedById   Int
   editedAt     DateTime  @default(now())
-  original     Message   @relation("OriginalMessageHistory", fields: [originalId], references: [id]) // Relacionamento oposto
-  editedBy     User      @relation(fields: [editedById], references: [id])
+  original     Message   @relation("OriginalMessageHistory", fields: [originalId], references: [id])
+  editedBy     User      @relation("UserEditedHistories", fields: [editedById], references: [id])
+}
+
+model Pedido {
+  id          Int         @id @default(autoincrement())
+  usuario     User        @relation(fields: [usuarioId], references: [id])
+  usuarioId   Int
+  itens       ItemPedido[]
+  total       Float
+  status      String      @default("pendente")
+  createdAt   DateTime    @default(now())
+}
+
+model ItemPedido {
+  id          Int     @id @default(autoincrement())
+  pedido      Pedido  @relation(fields: [pedidoId], references: [id])
+  pedidoId    Int
+  produto     Produto @relation(fields: [produtoId], references: [id])
+  produtoId   Int
+  quantidade  Int
+  precoUnitario Float
 }

@@ -1,77 +1,184 @@
-import React, { useEffect, useState } from 'react';
-import Header from '../components/Header'; // Importa o Header
-import { listarCarrinho, calcularTotalDoCarrinho } from '../services/api';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+import Header from '../components/Header';
+import { 
+    listarCarrinho, 
+    calcularTotalDoCarrinho,
+    finalizarPedido,
+    removerProdutoDoCarrinho,
+    atualizarQuantidadeItem
+} from '../services/api';
 import '../css/cart.css';
+import { useNavigate } from 'react-router-dom';
 
 const UserCartPage = () => {
-  const [carrinho, setCarrinho] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [userName, setUserName] = useState(""); 
-  const [userEmail, setUserEmail] = useState("");
+    const [carrinho, setCarrinho] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [finalizando, setFinalizando] = useState(false);
+    const { id } = useParams();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    // Captura o nome e email do usuário do localStorage
-    const storedName = localStorage.getItem("userName");
-    const storedEmail = localStorage.getItem("userEmail");
+    const carregarCarrinho = useCallback(async () => {
+        try {
+            const itens = await listarCarrinho(id);
+            setCarrinho(itens);
+            const valorTotal = await calcularTotalDoCarrinho(id);
+            setTotal(valorTotal);
+        } catch (error) {
+            console.error('Erro ao carregar o carrinho:', error);
+        }
+    }, [id]);
 
-    console.log("Nome do usuário recuperado:", storedName); // Confirma o nome recuperado
-    console.log("Email do usuário recuperado:", storedEmail); // Confirma o email recuperado
+    const handleFinalizarCompra = async () => {
+        try {
+            setFinalizando(true);
+            const usuarioId = localStorage.getItem("userId");
+            
+            if (!usuarioId) {
+                throw new Error("Você precisa estar logado para finalizar a compra");
+            }
+        
+            if (carrinho.length === 0) {
+                throw new Error("Seu carrinho está vazio");
+            }
+            navigate('/pagamento', { 
+                state: { 
+                    total,
+                    userId: usuarioId 
+                } 
+            });
 
-    if (storedName) setUserName(storedName);
-    if (storedEmail) setUserEmail(storedEmail);
-
-    // Função para carregar os itens do carrinho
-    const carregarCarrinho = async () => {
-      const usuarioId = localStorage.getItem("userId"); // Recupera o ID do usuário
-      console.log("ID do usuário recuperado:", usuarioId); // Confirma o ID recuperado
-      try {
-        const itens = await listarCarrinho(usuarioId);
-        setCarrinho(itens); 
-        const valorTotal = await calcularTotalDoCarrinho(usuarioId);
-        setTotal(valorTotal); 
-      } catch (error) {
-        console.error('Erro ao carregar o carrinho:', error);
-      }
+        } catch (error) {
+            console.error('Erro ao finalizar compra:', error);
+            alert(`Erro: ${error.message}`);
+        } finally {
+            setFinalizando(false);
+        }
     };
 
-    carregarCarrinho(); // Chama a função ao montar o componente
-  }, []); // Apenas uma vez, ao montar o componente
+    const handleRemoverItem = async (itemId) => {
+        try {
+            await removerProdutoDoCarrinho(itemId);
+            await carregarCarrinho();
+        } catch (error) {
+            console.error('Erro ao remover item:', error);
+            alert('Erro ao remover item do carrinho');
+        }
+    };
 
-  return (
-    <>
-      {/* Encapsula o Header e a página dentro de um fragmento */}
-      <Header />
-      <div className="user-cart-page">
-        <h1>Detalhes da Compra</h1>
-        {/* todas as informacoes q foram configuradas nos usuarios */}
-        <h2>Bem-vindo, {userName || "Visitante"}!</h2>
-        <h3>Email: {userEmail || "Não informado"}</h3>
+    const atualizarQuantidade = async (itemId, novaQuantidade) => {
+        if (novaQuantidade < 1) {
+            await handleRemoverItem(itemId);
+            return;
+        }
 
-        
-        <div>
-          <h3>Produtos Comprados:</h3>
-          {carrinho.length > 0 ? (
-            <ul>
-              {carrinho.map((item) => (
-                <li key={item.id}>
-                  <strong>{item.produto.nome}</strong>
-                  <p>Descrição: {item.produto.descricao}</p>
-                  <p>Quantidade: {item.quantidade}</p>
-                  <p>Preço Unitário: R${item.produto.preco.toFixed(2)}</p>
-                  <p>Subtotal: R${(item.produto.preco * item.quantidade).toFixed(2)}</p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>O carrinho está vazio.</p>
-          )}
-        </div>
+        try {
+            await atualizarQuantidadeItem(itemId, novaQuantidade);
+            await carregarCarrinho();
+        } catch (error) {
+            console.error('Erro ao atualizar quantidade:', error);
+            alert('Erro ao atualizar quantidade');
+        }
+    };
 
-        {/* Exibe o total da compra */}
-        <h3>Total da Compra: R${total.toFixed(2)}</h3>
-      </div>
-    </>
-  );
+    useEffect(() => {
+        const storedId = localStorage.getItem("userId");
+        if (!storedId || storedId !== id) {
+            navigate('/login');
+            return;
+        }
+
+        carregarCarrinho();
+    }, [navigate, id, carregarCarrinho]);
+
+    return (
+        <>
+            <Header />
+            <div className="cart-container">
+                <h1 className="cart-title">Carrinho</h1>
+                
+                <div className="cart-content">
+                    <div className="cart-items">
+                        {carrinho.length > 0 ? (
+                            carrinho.map((item) => (
+                                <div key={item.id} className="cart-item">
+                                    
+                                    <div className="item-details">
+                                        <h3 className="item-name">{item.produto?.nome || 'Produto não disponível'}</h3>
+                                        <p className="item-price">R$ {item.produto?.preco?.toFixed(2) || '0.00'}</p>
+                                        
+                                        <div className="item-actions">
+                                            <button 
+                                                className="remove-btn"
+                                                onClick={() => handleRemoverItem(item.id)}
+                                            >
+                                                Remover
+                                            </button>
+                                            
+                                            <div className="quantity-control">
+                                                <button 
+                                                    onClick={() => atualizarQuantidade(item.id, item.quantidade - 1)}
+                                                    className="quantity-btn"
+                                                >
+                                                    -
+                                                </button>
+                                                <span className="quantity">{item.quantidade}</span>
+                                                <button 
+                                                    onClick={() => atualizarQuantidade(item.id, item.quantidade + 1)}
+                                                    className="quantity-btn"
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="empty-cart">
+                                <p>Seu carrinho está vazio</p>
+                                <button 
+                                    onClick={() => navigate('/')}
+                                    className="continue-shopping"
+                                >
+                                    Continuar comprando
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                    
+                    {carrinho.length > 0 && (
+                        <div className="order-summary">
+                            <h2 className="summary-title">Resumo do Pedido</h2>
+                            
+                            <div className="summary-row">
+                                <span>Subtotal</span>
+                                <span>R$ {total.toFixed(2)}</span>
+                            </div>
+                            
+                            <div className="summary-row">
+                                <span>Frete</span>
+                                <span>Grátis</span>
+                            </div>
+                            
+                            <div className="summary-row total">
+                                <span>Total</span>
+                                <span>R$ {total.toFixed(2)}</span>
+                            </div>
+                            
+                            <button
+                                onClick={handleFinalizarCompra}
+                                disabled={finalizando}
+                                className="checkout-btn"
+                            >
+                                {finalizando ? 'Processando...' : 'Finalizar Compra'}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default UserCartPage;

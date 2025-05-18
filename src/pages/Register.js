@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../services/api";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
@@ -9,40 +9,92 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [emailStatus, setEmailStatus] = useState(""); 
     const navigate = useNavigate();
-    
+
+    // Validação de e-mail
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    };
+
+    // Validação de senha forte
+    const validatePassword = (password) => {
+        const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\.])[A-Za-z\d@$!%*?&\.]{8,}$/;
+        return strongRegex.test(password);
+    };
+
+    // Verifica se o e-mail já existe 
+    useEffect(() => {
+        if (email && validateEmail(email)) {
+            const checkEmail = async () => {
+                try {
+                    const response = await api.get(`/usuarios/check-email?email=${email}`);
+                    if (response.data.exists) {
+                        setEmailStatus("❌ E-mail já cadastrado");
+                    } else {
+                        setEmailStatus("✔ E-mail disponível");
+                    }
+                } catch (error) {
+                    setEmailStatus("");
+                }
+            };
+            const timer = setTimeout(checkEmail, 1000); 
+            return () => clearTimeout(timer);
+        } else {
+            setEmailStatus("");
+        }
+    }, [email]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validatePassword(password)) {
+            setMessage("A senha deve ter: 8+ caracteres, 1 maiúscula, 1 número e 1 especial (@$!%*?&.)");
+            return;
+        }
 
         if (password !== confirmPassword) {
             setMessage("As senhas não coincidem!");
             return;
         }
 
+        if (!validateEmail(email)) {
+            setMessage("Formato de e-mail inválido!");
+            return;
+        }
+
+        if (emailStatus === "❌ E-mail já cadastrado") {
+            setMessage("Este e-mail já está em uso!");
+            return;
+        }
+
         try {
-            const response = await api.post("/usuarios", {
-                name,
-                email,
+            // 1. Cria o usuário
+            await api.post("/usuarios", { 
+                name, 
+                email, 
                 password,
+                date: new Date().toISOString()
             });
 
-            setMessage(response.data.message);
-            console.log(response.data);
+            // 2. Login automático
+            const loginResponse = await api.post("/usuarios/login", { 
+                email, 
+                password 
+            });
 
-            // Salvar o token e o nome do usuário no localStorage
-            localStorage.setItem("token", response.data.token);
+            // 3. Armazena os dados
+            localStorage.setItem("token", loginResponse.data.token);
+            localStorage.setItem("userId", loginResponse.data.user.id);
             localStorage.setItem("userName", name);
 
-            // Redireciona para a página inicial
+            // 4. Redireciona
             navigate("/");
-
+            
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setMessage(error.response.data.message);
-            } else {
-                setMessage("Erro ao registrar usuário.");
-            }
-            console.error(error.response ? error.response.data : error.message);
+            setMessage(error.response?.data?.message || 
+                "Erro ao registrar. Verifique os dados e tente novamente.");
         }
     };
 
@@ -50,9 +102,10 @@ const Register = () => {
         <>
             <Header />
             <section className="layoutMain">
-                <form onSubmit={handleSubmit} className="formRegister" id="formRegister">
+                <form onSubmit={handleSubmit} className="formRegister">
                     <h1 className="registerTitle">REGISTRAR-SE</h1>
-                    {message && <p>{message}</p>}
+                    {message && <p style={{ color: "red" }}>{message}</p>}
+
                     <div className="boxRelative">
                         <label htmlFor="name" className="labelLR">Nome de usuário</label>
                         <input
@@ -65,6 +118,7 @@ const Register = () => {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </div>
+
                     <div className="boxRelative">
                         <label htmlFor="email" className="labelLR">Email</label>
                         <input
@@ -76,7 +130,17 @@ const Register = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
+                        {emailStatus && (
+                            <small style={{ 
+                                color: emailStatus.includes("❌") ? "red" : "green",
+                                display: "block",
+                                marginTop: "5px"
+                            }}>
+                                {emailStatus}
+                            </small>
+                        )}
                     </div>
+
                     <div className="boxRelative">
                         <label htmlFor="password" className="labelLR">Senha</label>
                         <input
@@ -87,8 +151,20 @@ const Register = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Mínimo 8 caracteres, 1 maiúscula, 1 número, 1 especial"
                         />
+                        <div className="password-strength">
+                            {password && (
+                                <span style={{ 
+                                    color: validatePassword(password) ? "green" : "red",
+                                    fontSize: "0.8rem"
+                                }}>
+                                    {validatePassword(password) ? "✔ Senha forte" : "✘ Senha fraca"}
+                                </span>
+                            )}
+                        </div>
                     </div>
+
                     <div className="boxRelative">
                         <label htmlFor="confirmPassword" className="labelLR">Confirme sua senha</label>
                         <input
@@ -101,6 +177,7 @@ const Register = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </div>
+
                     <div className="confirmBox">
                         <input type="submit" value="EFETUAR REGISTRO" id="register" />
                         <span className="RegisterDados">

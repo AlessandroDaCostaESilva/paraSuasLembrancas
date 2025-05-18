@@ -8,6 +8,16 @@ export default api;
 
 // carrinho ou pagina do usuario
 
+export const finalizarPedido = async (usuarioId) => {
+    try {
+      // O backend espera POST /pedidos com { usuarioId } no body
+      const response = await api.post('/pedidos', { usuarioId });
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao finalizar pedido:", error.response?.data || error.message);
+      throw error;
+    }
+};
 // Adicionar produto
 export const adicionarAoCarrinho = async (usuarioId, produtoId, quantidade) => {
     try {
@@ -19,7 +29,15 @@ export const adicionarAoCarrinho = async (usuarioId, produtoId, quantidade) => {
     }
 };
 
-
+export const atualizarQuantidadeItem = async (itemId, quantidade) => {
+    try {
+      const response = await api.put(`/carrinho/${itemId}`, { quantidade });
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao atualizar quantidade:", error.response?.data || error.message);
+      throw error;
+    }
+  };
 // Listar produtos
 export const listarCarrinho = async (usuarioId) => {
     try {
@@ -69,3 +87,13 @@ export const getAllProducts = async () => {
   const response = await api.get('/produtos');
   return response.data;
 };
+
+export const listarPedidos = async (usuarioId) => {
+    try {
+      const response = await api.get(`/pedidos/${usuarioId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao listar pedidos:", error.response?.data || error.message);
+      throw error;
+    }
+  };

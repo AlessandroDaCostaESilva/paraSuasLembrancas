@@ -38,23 +38,28 @@
     text-transform: uppercase;
 }
 
-.cartoesOrg{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 55vh;
-    gap: 25px;
-    flex-wrap: wrap;
-    padding: 20px 10px;
+.cartoesOrg {
+  /* Troque flex por grid (ou mantenha flex, mas sem altura fixa) */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+
+  /* Remova a altura fixa e paddings exagerados */
+  height: auto;          /* <-- LIBERA a altura para crescer conforme o conteúdo */
+  width: 100%;
+  padding: 20px 0;
+  margin: 0;             /* zera margin da <ul> */
+  list-style: none;      /* tira bolinhas */
 }
 
-.cartao{
-    width: 22%;
-    height: 50%;
-    position: relative;
-    overflow-y: hidden;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
-    border-radius: 5px;
+.cartao {
+  /* em grid/flex o width pode ser automático; mas se quiser, defina um mínimo */
+  width: 100%;           /* grid controla a largura */
+  min-height: 260px;     /* altura mínima opcional */
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: rgba(0,0,0,.15) 0 5px 15px;
 }
 
 .imagmexemplo{
@@ -136,16 +141,22 @@
     color: #622BD9;
 }
 
-.containerImagem {
-    width: 100%;
-    height: 100%; /* Altura fixa para manter padrão */
-    overflow: hidden;
-    border-radius: 5px 5px 0 0;
+.containerImagem {        /* wrapper para manter proporção */
+  width: 100%;
+  aspect-ratio: 1/1;      /* quadrado – opcional */
+  overflow: hidden;
 }
 
 .imagemProduto {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Cobre o espaço sem distorcer */
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+ 
+.cardsLayout h3 {
+  margin: 40px 0 10px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #146EA6;
 }
