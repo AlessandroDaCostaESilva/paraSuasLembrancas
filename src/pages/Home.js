@@ -38,9 +38,9 @@ const Home = () => {
   }, []);
 
   // Separar os produtos por categoria
-  const produtosMiriti = produtos.filter(p => p.descricao.toLowerCase().includes("miriti"));
-  const produtosMarajoara = produtos.filter(p => p.descricao.toLowerCase().includes("marajoara"));
-  const produtosCheiros = produtos.filter(p => p.descricao.toLowerCase().includes("cheiros"));
+const produtosMiriti = produtos.filter(p => p.categoria.toLowerCase().includes("miriti"));
+const produtosMarajoara = produtos.filter(p => p.categoria.toLowerCase().includes("marajoara"));
+const produtosCheiros = produtos.filter(p => p.categoria.toLowerCase().includes("cheiros"));
 
   return (
     <>
@@ -68,6 +68,7 @@ const Home = () => {
                 key={produto.id}
                 imagem={`http://localhost:5000${produto.imagem}`}
                 item={produto.nome}
+                categoriaItem={produto.categoria}
                 descricaoItem={produto.descricao}
                 onClick={() => handleAdicionarCarrinho(produto)}
               />
@@ -81,6 +82,7 @@ const Home = () => {
                 key={produto.id}
                 imagem={`http://localhost:5000${produto.imagem}`}
                 item={produto.nome}
+                categoriaItem={produto.categoria}
                 descricaoItem={produto.descricao}
                 onClick={() => handleAdicionarCarrinho(produto)}
               />
@@ -94,6 +96,7 @@ const Home = () => {
                 key={produto.id}
                 imagem={`http://localhost:5000${produto.imagem}`}
                 item={produto.nome}
+                categoriaItem={produto.categoria}
                 descricaoItem={produto.descricao}
                 onClick={() => handleAdicionarCarrinho(produto)}
               />

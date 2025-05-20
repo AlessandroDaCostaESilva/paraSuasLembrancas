@@ -36,6 +36,7 @@ model Produto {
   descricao String
   preco     Float
   imagem    String
+  categoria String
   criadoEm  DateTime  @default(now())
   carrinho  Carrinho[]
   messages  Message[] // Relacionamento inverso com Message

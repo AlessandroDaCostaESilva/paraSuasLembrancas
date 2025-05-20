@@ -10,7 +10,6 @@ export const criarPedidoController = async (req, res) => {
   try {
     const usuarioId = Number(req.body.usuarioId); // garante que seja número
 
-    console.log("📥 POST /pedidos — Criando pedido para usuário:", usuarioId);
     
     const pedido = await createPedido(usuarioId);
     

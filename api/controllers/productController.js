@@ -13,7 +13,7 @@ export const createProductController = async (req, res) => {
   try {
     console.log('Iniciando criação de produto');
     const { nome, descricao, preco } = req.body;
-    console.log('Dados recebidos para criação:', { nome, descricao, preco });
+    console.log('Dados recebidos para criação:', { nome, descricao, preco, categoria });
     const imagemPath = req.file ? `/uploads/${req.file.filename}` : null; // Caminho da imagem
     console.log('Imagem salva em:', imagemPath);
 
@@ -21,7 +21,8 @@ export const createProductController = async (req, res) => {
       nome,
       descricao,
       preco: parseFloat(preco),
-      imagem: imagemPath, // Salva o caminho da imagem
+      imagem: imagemPath,
+      categoria,
     });
 
     console.log('Produto criado com sucesso:', produto);
