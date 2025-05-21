@@ -1,21 +1,26 @@
+import React, { useState } from 'react';
+
 const CardsProducts = (props) => {
+    const [isHovered, setIsHovered] = useState(false);
     return (
-        <li className="cartao">
+        <li className="cartao"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            >
             <div className="containerImagem">
                 <img
                     src={props.imagem}
                     alt={props.item}
                     className="imagemProduto"
-                    onClick={props.onClick}
-                    style={{ cursor: "pointer" }}
                 />
             </div>
-            <div className="maisInfo">
+            <div className={`maisInfo ${isHovered ? 'maisActive' : ''}`}>
                 <h4 className="nomeItem">{props.item}</h4>
                 <p className="descricaoItem">{props.descricaoItem}</p>
                 <button
-                    className="adicionarHistorico"
+                    className="adicionarHistorico carrinho" 
                     onClick={props.onClick}
+                    style={{ cursor: "pointer" }}
                 >
                     Adicionar ao histórico
                 </button>

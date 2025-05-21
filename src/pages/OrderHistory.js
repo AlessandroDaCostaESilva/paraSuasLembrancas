@@ -6,6 +6,7 @@ import '../css/orders.css';
 const OrderHistory = () => {
   const [pedidos, setPedidos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [avaliacao, setAvaliacao] = useState(5); // Estado inicial: 5 estrelas
 
   useEffect(() => {
     const fetchPedidos = async () => {
@@ -31,7 +32,7 @@ const OrderHistory = () => {
       <Header />
       <div className="order-history">
         <h1>Meus Pedidos</h1>
-        
+
         {pedidos.length === 0 ? (
           <p>Nenhum pedido encontrado.</p>
         ) : (
@@ -45,7 +46,7 @@ const OrderHistory = () => {
                   <span className="data">{new Date(pedido.createdAt).toLocaleDateString()}</span>
                   <span className="total">Total: R${pedido.total.toFixed(2)}</span>
                 </div>
-                
+
                 <div className="itens-pedido">
                   <h3>Produtos:</h3>
                   <ul>
@@ -55,6 +56,16 @@ const OrderHistory = () => {
                           <h4>{item.produto.nome}</h4>
                           <p>Quantidade: {item.quantidade}</p>
                           <p>Preço unitário: R${item.precoUnitario.toFixed(2)}</p>
+                          <select
+                            value={avaliacao}
+                            onChange={(e) => setAvaliacao(Number(e.target.value))}
+                          >
+                            <option value={1}>1 Estrela</option>
+                            <option value={2}>2 Estrelas</option>
+                            <option value={3}>3 Estrelas</option>
+                            <option value={4}>4 Estrelas</option>
+                            <option value={5}>5 Estrelas</option>
+                          </select>
                         </div>
                       </li>
                     ))}

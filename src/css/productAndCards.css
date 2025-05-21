@@ -88,11 +88,11 @@
     padding: 15px;
     font-size: 0.8rem;
     height: 80%;
+    width: 100%;
     background-color: #fff;
     position: absolute;
     transition: ease 500ms;
     top: 110%;
-    border-radius: 0 0 10px 10px;
 }
 
 .carrinho{
@@ -143,11 +143,12 @@
 
 .containerImagem {        /* wrapper para manter proporção */
   width: 100%;
+  height: 100%;
   aspect-ratio: 1/1;      /* quadrado – opcional */
   overflow: hidden;
 }
 
-.imagemProduto {
+.imagemProduto{
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -159,4 +160,10 @@
   font-size: 1.8rem;
   font-weight: 700;
   color: #146EA6;
+}
+
+.descricaoItem{
+    font-size: 1.2rem;
+    display: inline-block;
+    height: 80%;
 }
